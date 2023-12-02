@@ -105,3 +105,86 @@ exports.createStudentValidator = [
     .withMessage("inavlid section id format"),
   validatorMiddleware,
 ];
+exports.updateStudentValidator = [
+  body("registerationNumber")
+    .optional()
+    .isString()
+    .matches(/[0-9]{3}-[1|2]-[0-9]{4}-[P|A]/)
+    .withMessage("Invalid registration number format"),
+  body("birthDate")
+    .optional()
+    .isDate({ format: "MM/DD/YYYY" })
+    .withMessage("Invalid date format: must be MM/DD/YYYY "),
+  body(["firstName", "lastName"])
+    .optional()
+    .isString()
+    .withMessage("invalid first name or last name format"),
+  body("birthPlace")
+    .optional()
+    .isString()
+    .withMessage("invalid birth place format "),
+  body("address").optional().isString().withMessage("invalid address format "),
+  body("phoneNumber")
+    .optional()
+    .isString()
+    .isLength({ min: 10, max: 10 })
+    .withMessage("invalid phoneNumber format : must be 10 caracters "),
+  body("fatherFirstName")
+    .optional()
+    .isString()
+    .withMessage("invalid fatherFirstName format"),
+  body("motherFullName")
+    .optional()
+    .isString()
+    .withMessage("invalid motherFullName format"),
+  body("studentLevel")
+    .optional()
+    .isString()
+    .matches(/[4AM|1AS|2AS|3AS]/)
+    .withMessage("invalid studentLevel format : must be (4AM-1AS-2AS-3AS)"),
+  body("scolareYear")
+    .optional()
+    .isString()
+    .matches(/[0-9]{4}-[0-9]{4}/)
+    .withMessage("invalid scolare year format : must be YYYY-YYYY"),
+  body("brothersNumber")
+    .optional()
+    .isNumeric()
+    .withMessage("invalid brothers number format : must be number"),
+  body("parentFamilyStatus")
+    .optional()
+    .isString()
+    .matches(/[married|divorced]/)
+    .withMessage(
+      "invalid parentFamilyStatus format : must be married or divorced"
+    ),
+  body("studentFamilyStatus")
+    .optional()
+    .isString()
+    .matches(/[married|divorced|single]/)
+    .withMessage(
+      "invalid studentFamilyStatus format : must be (married-divorced-single)"
+    ),
+  body("fatherJob")
+    .optional()
+    .isString()
+    .withMessage("invalid father job format"),
+  body("motherJob")
+    .optional()
+    .isString()
+    .withMessage("invalid mother job format"),
+  body("sex")
+    .optional()
+    .isString()
+    .matches(/[male|female]{1}/)
+    .withMessage("invalid sex format : sex must be male or female"),
+  body("Nationality")
+    .optional()
+    .isString()
+    .withMessage("invalide nationality format"),
+  body("sectionid")
+    .optional()
+    .isMongoId()
+    .withMessage("inavlid section id format"),
+  validatorMiddleware,
+];
