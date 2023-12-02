@@ -16,13 +16,13 @@ exports.createSectionValidator = [
   body("startDate")
     .notEmpty()
     .withMessage("startDate is required")
-    .isDate({ format: "DD-MM-YYYY" })
-    .withMessage("invalid startDate format"),
+    .isDate({ format: "MM/DD/YYYY" })
+    .withMessage("invalid startDate format : must be MM/DD/YYYY "),
   body("endDate")
     .notEmpty()
     .withMessage("endDate is required")
-    .isDate({ format: "DD-MM-YYYY" })
-    .withMessage("invalid endDate format"),
+    .isDate({ format: "MM/DD/YYYY" })
+    .withMessage("invalid endDate format : must be MM/DD/YYYY "),
   body("studentsNumber")
     .optional()
     .isNumeric()
@@ -75,9 +75,11 @@ exports.sectionAdvancedSearchValidation = [
     .withMessage("femaleStudentsNumber must be numeric"),
   validatorMiddleware,
 ];
-exports.createSectionValidator = [
+
+exports.updateSectionValidator = [
   body("sectionCode")
     .optional()
+
     .trim()
     .isString()
     .withMessage("Invalid Section code format"),
@@ -87,12 +89,14 @@ exports.createSectionValidator = [
     .withMessage("Invalid speciality id format"),
   body("startDate")
     .optional()
-    .isDate({ format: "DD-MM-YYYY" })
-    .withMessage("invalid startDate format"),
+
+    .isDate({ format: "MM/DD/YYYY" })
+    .withMessage("invalid startDate format : must be MM/DD/YYYY "),
   body("endDate")
     .optional()
-    .isDate({ format: "DD-MM-YYYY" })
-    .withMessage("invalid endDate format"),
+
+    .isDate({ format: "MM/DD/YYYY" })
+    .withMessage("invalid endDate format : must be MM/DD/YYYY "),
   body("studentsNumber")
     .optional()
     .isNumeric()

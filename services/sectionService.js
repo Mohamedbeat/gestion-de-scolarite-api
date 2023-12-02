@@ -23,12 +23,13 @@ exports.createSection = asyncWrapper(async (req, res, next) => {
     return next(appErr.createErr("duplicate section code", 400));
 
   const inputData = req.body;
+  inputData.specialityTitle = foundSpeciality.specialityTitle;
 
-  const createdSection = await sectionModel.create(inputData);
+  const createdSection = await sectionModel.create({ ...inputData });
 
   return res
     .status(201)
-    .json({ message: "created successfully", data: inputData });
+    .json({ message: "created successfully", data: createdSection });
 });
 
 //get section By Id => GET/sections/:id
@@ -53,12 +54,16 @@ exports.getSectionAdvanced = asyncWrapper(async (req, res, next) => {
     endDate,
     minStudentsNumber,
     maxStudentsNumber,
+    specialityTitle,
   } = req.body;
 
   const foundSections = await sectionModel.find({
     $and: [
       {
         sectionCode: { $regex: sectionCode || "", $options: "i" },
+      },
+      {
+        specialityTitle: { $regex: specialityTitle || "", $options: "i" },
       },
       { startDate: { $eq: startDate || "01-01-1700" } },
       { endDate: { $eq: endDate || "01-01-2080" } },
@@ -87,6 +92,14 @@ exports.updateSection = asyncWrapper(async (req, res, next) => {
   if (!foundSection)
     return next(appErr.createErr("Section not found", 404, "error"));
 
+  if (dataInput.specialityid) {
+    const foundSpeciality = await specialityModel.findById(
+      dataInput.specialityid
+    );
+    if (!foundSpeciality)
+      return next(res.status(404).json({ message: "speciality id not found" }));
+  }
+
   const updatedSection = await sectionModel.findByIdAndUpdate(
     { _id: req.params.id },
     dataInput,
@@ -94,24 +107,36 @@ exports.updateSection = asyncWrapper(async (req, res, next) => {
       new: true,
     }
   );
+  if (dataInput.specialityid) {
+    const foundSpeciality = await specialityModel.findById(
+      dataInput.specialityid
+    );
+    if (!foundSpeciality)
+      return next(res.status(404).json({ message: "speciality id not found" }));
+
+    updatedSection.specialityid = dataInput.specialityid;
+
+    updatedSection.specialityTitle = foundSpeciality.specialityTitle;
+    await updatedSection.save();
+  }
   return res
     .status(200)
     .json({ message: "modified successfully", data: updatedSection });
 });
 
-//delete Speciality => DELETE /specialities/:id
-exports.deleteSpeciality = asyncWrapper(async (req, res, next) => {
+//delete Section => DELETE /sections/:id
+exports.deleteSection = asyncWrapper(async (req, res, next) => {
   const isidValid = isObjIdValid(req.params.id);
 
   if (!isidValid)
     return next(appErr.createErr("Invalid id format", 400, "error"));
 
-  const foundSpc = await specialityModel.findById(req.params.id);
+  const foundsec = await sectionModel.findById(req.params.id);
 
-  if (!foundSpc)
-    return next(appErr.createErr("Speciality not found", 404, "error"));
+  if (!foundsec)
+    return next(appErr.createErr("Section not found", 404, "error"));
 
-  await specialityModel.findOneAndDelete(req.params.id);
+  await sectionModel.findOneAndDelete(req.params.id);
 
   return res.status(200).json({ message: "Deleted successfully" });
 });

@@ -1,6 +1,7 @@
 const express = require("express");
 const connectToDb = require("./utils/db");
 const specialityRouter = require("./routes/specialityRoute");
+const studentRouter = require("./routes/studentRoute");
 const sectionRouter = require("./routes/sectionRoute");
 
 const app = express();
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 //routers
 app.use("/api/v1/specialities", specialityRouter);
 app.use("/api/v1/sections", sectionRouter);
+app.use("/api/v1/students", studentRouter);
 
 //catch error middlewere
 app.use((err, req, res, next) => {

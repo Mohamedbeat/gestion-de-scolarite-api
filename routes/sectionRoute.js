@@ -4,10 +4,12 @@ const {
   getSectionById,
   getSectionAdvanced,
   updateSection,
+  deleteSection,
 } = require("../services/sectionService");
 const {
   createSectionValidator,
   sectionAdvancedSearchValidation,
+  updateSectionValidator,
 } = require("../utils/validators/sectionValidator");
 
 const router = require("express").Router();
@@ -21,6 +23,6 @@ router.get(
   getSectionAdvanced
 );
 router.get("/:id", getSectionById);
-router.put("/:id", createSectionValidator, updateSection);
-// router.delete("/:id", deleteSpeciality);
+router.put("/:id", updateSectionValidator, updateSection);
+router.delete("/:id", deleteSection);
 module.exports = router;

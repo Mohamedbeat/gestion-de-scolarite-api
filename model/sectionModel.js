@@ -6,11 +6,14 @@ const sectionSchema = new mongoose.Schema(
       trim: true,
       type: String,
       required: true,
-      trim: true,
       unique: true,
     },
     specialityid: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "speciality",
+    },
+    specialityTitle: {
+      type: mongoose.Schema.Types.String,
       ref: "speciality",
     },
     startDate: {
