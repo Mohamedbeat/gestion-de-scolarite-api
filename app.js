@@ -4,6 +4,9 @@ const specialityRouter = require("./routes/specialityRoute");
 const studentRouter = require("./routes/studentRoute");
 const sectionRouter = require("./routes/sectionRoute");
 const moduleRouter = require("./routes/moduleRoute");
+const marksRouter = require("./routes/marksRoute");
+const semesterRouter = require("./routes/semesterRoute");
+const decisionRouter = require("./routes/decisionRoute");
 
 const app = express();
 
@@ -22,6 +25,9 @@ app.use("/api/v1/specialities", specialityRouter);
 app.use("/api/v1/sections", sectionRouter);
 app.use("/api/v1/students", studentRouter);
 app.use("/api/v1/modules", moduleRouter);
+app.use("/api/v1/marks", marksRouter);
+app.use("/api/v1/semesters", semesterRouter);
+app.use("/api/v1/decisions", decisionRouter);
 
 //catch error middlewere
 app.use((err, req, res, next) => {
