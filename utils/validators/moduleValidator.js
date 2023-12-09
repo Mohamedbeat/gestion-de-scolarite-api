@@ -9,6 +9,12 @@ exports.createModuleValidator = [
     .withMessage("invalid module code format")
     .isLength({ min: 3 })
     .withMessage("invalid module code format : 3 caracters minimum"),
+  body("semesterCode")
+    .notEmpty()
+    .withMessage("semester code is required ")
+    .isString()
+    .withMessage("invalid semester code format")
+    .trim(),
   body("moduleTitle")
     .notEmpty()
     .withMessage("module title is required")
@@ -50,6 +56,11 @@ exports.updateModuleValidator = [
     .isLength({ min: 3 })
     .withMessage("invalid module code format : 3 caracters minimum")
     .toUpperCase(),
+  body("semesterCode")
+    .optional()
+    .isString()
+    .withMessage("invalid semester code format")
+    .trim(),
   body("moduleTitle")
     .optional()
     .isString()

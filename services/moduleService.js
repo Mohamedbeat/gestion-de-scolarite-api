@@ -1,4 +1,5 @@
 const moduleModel = require("../model/moduleModel");
+const semesterModel = require("../model/semesterModel");
 const specialityModel = require("../model/specialityModel");
 const appErr = require("../utils/appErr");
 const asyncWrapper = require("../utils/asyncWrapper");
@@ -10,13 +11,19 @@ exports.createModule = asyncWrapper(async (req, res, next) => {
   const foundSpc = await specialityModel.findById(inputData.specialityid);
   if (!foundSpc) return next(appErr.createErr("speciality not found", 404));
 
-  const foundModule = await moduleModel.find({
+  const foundSemester = await semesterModel.findOne({
+    semesterCode: inputData.semesterCode,
+  });
+  if (!foundSemester) return next(appErr.createErr("semester not found", 404));
+
+  const foundModule = await moduleModel.findOne({
     moduleCode: inputData.moduleCode,
+    semesterCode: inputData.semesterCode,
   });
 
-  console.log(foundModule);
+  // console.log(foundModule);
 
-  if (foundModule.length)
+  if (foundModule)
     return next(appErr.createErr("this module code already exist", 400));
 
   const createdModule = await moduleModel.create({
@@ -77,12 +84,23 @@ exports.updateModule = asyncWrapper(async (req, res, next) => {
 
   // module code existance
 
-  const existModul = await moduleModel.find({
-    moduleCode: inputData.moduleCode,
-  });
+  if (inputData.moduleCode && inputData.semesterCode) {
+    const existModul = await moduleModel.findOne({
+      moduleCode: inputData.moduleCode,
+      semesterCode: inputData.semesterCode,
+    });
+    if (existModul)
+      return next(appErr.createErr("this module code already exist", 400));
+  }
 
-  if (existModul.length)
-    return next(appErr.createErr("this module code already exist", 400));
+  // semester code existance
+  if (inputData.semesterCode) {
+    const exsistSemester = await semesterModel.findOne({
+      semesterCode: inputData.semesterCode,
+    });
+    if (!exsistSemester)
+      return next(appErr.createErr("semester not found", 404));
+  }
 
   if (inputData.specialityid) {
     const foundSpc = await specialityModel.findById(inputData.specialityid);

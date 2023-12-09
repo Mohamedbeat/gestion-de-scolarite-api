@@ -53,11 +53,15 @@ ${inputData.registerationNumber} and this semestercode ${inputData.semesterCode}
   //get all module to check if the student passed all exams
   const allModule = await moduleModel.find({
     specialityid: studentSection.specialityid,
+    semesterCode: inputData.semesterCode,
   });
+
   if (allModule.length !== semesterModuleAverages.length)
     return next(
       appErr.createErr(
-        `there are still some empty exam points, number of missing points :${
+        `there are still some empty points in semester ${
+          inputData.semesterCode
+        }, number of missing points :${
           allModule.length - semesterModuleAverages.length
         }`,
         400

@@ -5,8 +5,12 @@ const moduleSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true,
     uppercase: true,
+  },
+  semesterCode: {
+    trim: true,
+    type: String,
+    required: true,
   },
   moduleTitle: {
     type: String,
