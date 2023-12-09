@@ -10,13 +10,17 @@ const {
   createModuleValidator,
   updateModuleValidator,
 } = require("../utils/validators/moduleValidator");
+const {
+  verifyUser,
+  verifyUserAndAdmin,
+} = require("../middleweres/authMiddlewere");
 
 const router = express.Router();
-
+router.use(verifyUser);
 router.get("/", getAllModules);
-router.post("/new", createModuleValidator, createModule);
+router.post("/new", verifyUserAndAdmin, createModuleValidator, createModule);
 router.get("/:id", getModuleByid);
-router.put("/:id", updateModuleValidator, updateModule);
-router.delete("/:id", deleteModule);
+router.put("/:id", verifyUserAndAdmin, updateModuleValidator, updateModule);
+router.delete("/:id", verifyUserAndAdmin, deleteModule);
 
 module.exports = router;

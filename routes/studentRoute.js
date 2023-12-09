@@ -9,13 +9,18 @@ const {
   createStudentValidator,
   updateStudentValidator,
 } = require("../utils/validators/studentValidator");
+const {
+  verifyUser,
+  verifyUserAndAdmin,
+} = require("../middleweres/authMiddlewere");
 
 const router = require("express").Router();
+router.use(verifyUser);
 
 router.get("/", getAllStudents);
-router.post("/new", createStudentValidator, createStudent);
+router.post("/new", verifyUserAndAdmin, createStudentValidator, createStudent);
 
 router.get("/:id", getStudentById);
-router.put("/:id", updateStudentValidator, updateStudent);
-router.delete("/:id", deleteStudent);
+router.put("/:id", verifyUserAndAdmin, updateStudentValidator, updateStudent);
+router.delete("/:id", verifyUserAndAdmin, deleteStudent);
 module.exports = router;

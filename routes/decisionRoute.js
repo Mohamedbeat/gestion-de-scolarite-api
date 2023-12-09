@@ -11,13 +11,23 @@ const {
   getAllDecisionsValidator,
   updateDecisionValidator,
 } = require("../utils/validators/decisionValidator");
+const {
+  verifyUser,
+  verifyUserAndAdmin,
+} = require("../middleweres/authMiddlewere");
 
 const router = express.Router();
+router.use(verifyUser);
 
 router.get("/", getAllDecisionsValidator, getAllDecisions);
-router.post("/new", createDecisionValidator, createDecision);
-router.put("/", updateDecisionValidator, updateDecision);
+router.post(
+  "/new",
+  verifyUserAndAdmin,
+  createDecisionValidator,
+  createDecision
+);
+router.put("/", verifyUserAndAdmin, updateDecisionValidator, updateDecision);
 
 router.get("/:id", getDecisionByid);
-router.delete("/:id", deleteDecisionByid);
+router.delete("/:id", verifyUserAndAdmin, deleteDecisionByid);
 module.exports = router;

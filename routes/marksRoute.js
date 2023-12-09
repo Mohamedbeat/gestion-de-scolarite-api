@@ -12,13 +12,18 @@ const {
   getOneMark,
   deleteMark,
 } = require("../services/marksService");
+const {
+  verifyUser,
+  verifyUserAndAdmin,
+} = require("../middleweres/authMiddlewere");
 
 const router = express.Router();
 
+router.use(verifyUser);
 router.get("/", getAllmarksValidator, getAllMarks);
 router.get("/single", getOneMarkValidator, getOneMark);
-router.delete("/", getOneMarkValidator, deleteMark);
-router.post("/new", createMarkMiddlewere, createMark);
-router.put("/", updateMarkMiddlewere, updateMark);
+router.delete("/", verifyUserAndAdmin, getOneMarkValidator, deleteMark);
+router.post("/new", verifyUserAndAdmin, createMarkMiddlewere, createMark);
+router.put("/", verifyUserAndAdmin, updateMarkMiddlewere, updateMark);
 
 module.exports = router;
