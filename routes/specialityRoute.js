@@ -7,6 +7,7 @@ const {
 } = require("../services/specialityService");
 const {
   createSpecialityValidator,
+  updateSpecialityValidator,
 } = require("../utils/validators/specialityValidator");
 const {
   verifyUser,
@@ -25,6 +26,11 @@ router.post(
 );
 
 router.get("/:id", getSpecialityById);
-router.put("/:id", verifyUserAndAdmin, updateSpeciality);
+router.put(
+  "/:id",
+  verifyUserAndAdmin,
+  updateSpecialityValidator,
+  updateSpeciality
+);
 router.delete("/:id", verifyUserAndAdmin, deleteSpeciality);
 module.exports = router;

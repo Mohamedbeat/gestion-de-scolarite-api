@@ -74,7 +74,7 @@ exports.deleteSpeciality = asyncWrapper(async (req, res, next) => {
   if (!foundSpc)
     return next(appErr.createErr("Speciality not found", 404, "error"));
 
-  await specialityModel.findOneAndDelete(req.params.id);
+  await specialityModel.findByIdAndDelete(req.params.id);
 
   return res.status(200).json({ message: "Deleted successfully" });
 });

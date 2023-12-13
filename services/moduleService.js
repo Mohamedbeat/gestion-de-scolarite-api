@@ -84,7 +84,12 @@ exports.updateModule = asyncWrapper(async (req, res, next) => {
 
   // module code existance
 
-  if (inputData.moduleCode && inputData.semesterCode) {
+  if (
+    inputData.moduleCode &&
+    inputData.semesterCode &&
+    inputData.moduleCode !== foundModule.moduleCode &&
+    inputData.semesterCode !== foundModule.semesterCode
+  ) {
     const existModul = await moduleModel.findOne({
       moduleCode: inputData.moduleCode,
       semesterCode: inputData.semesterCode,
@@ -94,10 +99,12 @@ exports.updateModule = asyncWrapper(async (req, res, next) => {
   }
 
   // semester code existance
+
   if (inputData.semesterCode) {
     const exsistSemester = await semesterModel.findOne({
       semesterCode: inputData.semesterCode,
     });
+
     if (!exsistSemester)
       return next(appErr.createErr("semester not found", 404));
   }

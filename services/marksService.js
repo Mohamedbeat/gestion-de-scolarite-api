@@ -4,6 +4,7 @@ const semesterModel = require("../model/semesterModel");
 const studentModel = require("../model/studentModel");
 const appErr = require("../utils/appErr");
 const asyncWrapper = require("../utils/asyncWrapper");
+const { isObjIdValid } = require("../utils/validators/mongoIdValidator");
 
 exports.createMark = asyncWrapper(async (req, res, next) => {
   const moduleCode = req.body.moduleCode;
@@ -150,21 +151,29 @@ exports.getAllMarks = asyncWrapper(async (req, res, next) => {
 });
 
 exports.deleteMark = asyncWrapper(async (req, res, next) => {
-  const moduleCode = req.body.moduleCode;
-  const registerationNumber = req.body.registerationNumber;
-  const semesterCode = req.body.semesterCode;
+  // const moduleCode = req.body.moduleCode;
+  // const registerationNumber = req.body.registerationNumber;
+  // const semesterCode = req.body.semesterCode;
 
-  const foundMark = await marksModel.findOne({
-    moduleCode: moduleCode,
-    registerationNumber: registerationNumber,
-    semesterCode: semesterCode,
-  });
+  // const foundMark = await marksModel.findOne({
+  //   moduleCode: moduleCode,
+  //   registerationNumber: registerationNumber,
+  //   semesterCode: semesterCode,
+  // });
+  // if (!foundMark) return next(appErr.createErr("mark not found", 404));
+
+  // await marksModel.findOneAndDelete({
+  //   moduleCode: moduleCode,
+  //   registerationNumber: registerationNumber,
+  // });
+
+  // return res.status(200).json({ message: "deleted successfully" });
+  const { id } = req.params;
+  const isvalid = isObjIdValid(id);
+  if (!isvalid) return next(appErr.createErr("invalid id format", 400));
+  const foundMark = await marksModel.findById(id);
   if (!foundMark) return next(appErr.createErr("mark not found", 404));
-
-  await marksModel.findOneAndDelete({
-    moduleCode: moduleCode,
-    registerationNumber: registerationNumber,
-  });
+  await marksModel.findByIdAndDelete(id);
 
   return res.status(200).json({ message: "deleted successfully" });
 });

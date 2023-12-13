@@ -16,12 +16,12 @@ exports.createSectionValidator = [
   body("startDate")
     .notEmpty()
     .withMessage("startDate is required")
-    .isDate({ format: "MM/DD/YYYY" })
+    .isDate({ format: "YYYY-MM-DD" })
     .withMessage("invalid startDate format : must be MM/DD/YYYY "),
   body("endDate")
     .notEmpty()
     .withMessage("endDate is required")
-    .isDate({ format: "MM/DD/YYYY" })
+    .isDate({ format: "YYYY-MM-DD" })
     .withMessage("invalid endDate format : must be MM/DD/YYYY "),
   body("studentsNumber")
     .optional()
@@ -90,12 +90,12 @@ exports.updateSectionValidator = [
   body("startDate")
     .optional()
 
-    .isDate({ format: "MM/DD/YYYY" })
+    .isDate()
     .withMessage("invalid startDate format : must be MM/DD/YYYY "),
   body("endDate")
     .optional()
 
-    .isDate({ format: "MM/DD/YYYY" })
+    .isDate()
     .withMessage("invalid endDate format : must be MM/DD/YYYY "),
   body("studentsNumber")
     .optional()

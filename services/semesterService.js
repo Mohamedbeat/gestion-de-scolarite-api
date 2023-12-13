@@ -79,7 +79,7 @@ exports.updateSemester = asyncWrapper(async (req, res, next) => {
   };
 
   const existSemester = await semesterModel.findOne({
-    semesterCode: data.sectionCode,
+    semesterCode: data.semesterCode,
   });
   if (existSemester)
     return next(appErr.createErr("semester code already exist", 400));

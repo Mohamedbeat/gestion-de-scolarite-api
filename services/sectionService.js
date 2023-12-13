@@ -136,7 +136,7 @@ exports.deleteSection = asyncWrapper(async (req, res, next) => {
   if (!foundsec)
     return next(appErr.createErr("Section not found", 404, "error"));
 
-  await sectionModel.findOneAndDelete(req.params.id);
+  await sectionModel.findByIdAndDelete(req.params.id);
 
   return res.status(200).json({ message: "Deleted successfully" });
 });

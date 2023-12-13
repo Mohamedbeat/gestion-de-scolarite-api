@@ -29,12 +29,13 @@ app.use(
 //loggerr
 app.use((req, res, next) => {
   console.log(`- REQUESTING : ${req.method} => ${req.url}`);
+  console.log("." + req.body.semesterCode + ".");
   next();
 });
-app.use((req, res, next) => {
-  console.log(req.cookies.access_token);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.cookies.access_token);
+//   next();
+// });
 
 //routers
 app.use("/api/v1/specialities", specialityRouter);

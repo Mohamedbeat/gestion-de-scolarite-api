@@ -11,7 +11,7 @@ exports.createStudentValidator = [
   body("birthDate")
     .notEmpty()
     .withMessage("Birth date is required")
-    .isDate({ format: "MM/DD/YYYY" })
+    .isDate()
     .withMessage("Invalid date format: must be MM/DD/YYYY "),
   body(["firstName", "lastName"])
     .notEmpty()
@@ -51,8 +51,8 @@ exports.createStudentValidator = [
     .matches(/[4AM|1AS|2AS|3AS]/)
     .withMessage("invalid studentLevel format : must be (4AM-1AS-2AS-3AS)"),
   body("scolareYear")
-    .notEmpty()
-    .withMessage("scolare Year is required")
+    .optional()
+    // .withMessage("scolare Year is required")
     .isString()
     .matches(/[0-9]{4}-[0-9]{4}/)
     .withMessage("invalid scolare year format : must be YYYY-YYYY"),
@@ -113,7 +113,7 @@ exports.updateStudentValidator = [
     .withMessage("Invalid registration number format"),
   body("birthDate")
     .optional()
-    .isDate({ format: "MM/DD/YYYY" })
+    .isDate()
     .withMessage("Invalid date format: must be MM/DD/YYYY "),
   body(["firstName", "lastName"])
     .optional()
