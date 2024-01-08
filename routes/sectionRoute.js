@@ -21,7 +21,7 @@ router.use(verifyUser);
 router.get("/", getAllSections);
 router.post("/new", verifyUserAndAdmin, createSectionValidator, createSection);
 
-router.get(
+router.post(
   "/advancedSearch",
   sectionAdvancedSearchValidation,
   getSectionAdvanced

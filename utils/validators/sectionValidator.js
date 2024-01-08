@@ -22,7 +22,7 @@ exports.createSectionValidator = [
     .notEmpty()
     .withMessage("endDate is required")
     .isDate({ format: "YYYY-MM-DD" })
-    .withMessage("invalid endDate format : must be MM/DD/YYYY "),
+    .withMessage("invalid endDate format : must be YYYY-MM-DD "),
   body("studentsNumber")
     .optional()
     .isNumeric()
@@ -50,12 +50,12 @@ exports.sectionAdvancedSearchValidation = [
     .withMessage("Invalid speciality id format"),
   body("startDate")
     .optional()
-    .isDate({ format: "DD-MM-YYYY" })
-    .withMessage("invalid startDate format"),
+    .isDate({ format: "YYYY-MM-DD" })
+    .withMessage("invalid startDate format : must be YYYY-MM-DD "),
   body("endDate")
     .optional()
-    .isDate({ format: "DD-MM-YYYY" })
-    .withMessage("invalid endDate format"),
+    .isDate({ format: "YYYY-MM-DD" })
+    .withMessage("invalid endDate format : must be YYYY-MM-DD "),
   body("minStudentsNumber")
     .optional()
     .isNumeric()
@@ -90,13 +90,13 @@ exports.updateSectionValidator = [
   body("startDate")
     .optional()
 
-    .isDate()
-    .withMessage("invalid startDate format : must be MM/DD/YYYY "),
+    .isDate({ format: "YYYY-MM-DD" })
+    .withMessage("invalid startDate format : must be YYYY-MM-DD "),
   body("endDate")
     .optional()
 
-    .isDate()
-    .withMessage("invalid endDate format : must be MM/DD/YYYY "),
+    .isDate({ format: "YYYY-MM-DD" })
+    .withMessage("invalid endDate format : must be YYYY-MM-DD "),
   body("studentsNumber")
     .optional()
     .isNumeric()

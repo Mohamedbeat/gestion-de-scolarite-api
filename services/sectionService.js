@@ -56,6 +56,7 @@ exports.getSectionAdvanced = asyncWrapper(async (req, res, next) => {
     maxStudentsNumber,
     specialityTitle,
   } = req.body;
+  console.log(req.body);
 
   const foundSections = await sectionModel.find({
     $and: [
@@ -65,8 +66,8 @@ exports.getSectionAdvanced = asyncWrapper(async (req, res, next) => {
       {
         specialityTitle: { $regex: specialityTitle || "", $options: "i" },
       },
-      { startDate: { $eq: startDate || "01-01-1700" } },
-      { endDate: { $eq: endDate || "01-01-2080" } },
+      { startDate: { $gte: startDate || "01-01-1700" } },
+      { endDate: { $lte: endDate || "01-01-2080" } },
       {
         studentsNumber: {
           $gte: parseInt(minStudentsNumber) || 0,
@@ -76,7 +77,6 @@ exports.getSectionAdvanced = asyncWrapper(async (req, res, next) => {
     ],
   });
   return res.status(200).json({ data: foundSections });
-  res.send("ok");
 });
 
 //update section => PUT /sections/:id
